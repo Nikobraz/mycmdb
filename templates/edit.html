@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}Update asset{% endblock %}
+{% block content %}
+<h1>Update Asset</h1>
+<form method="post">
+    {% csrf_token  %}
+    <ul>
+        {{ form.as_p }}
+    </ul>
+    <input id="save_asset" type="submit" value="Update">
+</form>
+<a href="{% url "baseview" %}">back to list</a>
+{% endblock %}

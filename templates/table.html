@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Table{% endblock %}
+{% block content %}
+<h1>All Table</h1>
+<table border="1" width="100%">
+    <tr>
+        <td>Hostname</td>
+        <td>Max ports</td>
+        <td>Port count</td>
+        <td>port_to</td>
+
+        <td>Edit...</td>
+    </tr>
+    {% for item in data %}
+    <tr class='success'>
+        <td>{{ item.hostname }}</td>
+        <td>{{ item.max_ports }}</td>
+        <td>{{ item.port_count }}</td>
+        <td>{{ item.port_to|linebreaksbr }}</td>
+
+        <td><a href="{% url "updateasset" item.id %}">Edit...</a></td>
+    </tr>
+    {% endfor %}
+</table>
+<a href="{% url "addasset" %}">Add Asset</a><p>
+<a href="{% url "addport" %}">Add Port</a>
+{% endblock %}
