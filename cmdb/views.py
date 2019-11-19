@@ -23,7 +23,7 @@ class BaseView(ListView):
 class AddAsset(CreateView):
     model = Asset
     template_name = 'add.html'
-    fields = ['hostname', 'max_ports', 'ports']
+    fields = ['hostname', 'max_ports']
 
     def get_success_url(self):
         return reverse('baseview')
@@ -31,12 +31,7 @@ class AddAsset(CreateView):
     def form_valid(self, form):
         linkto = list(form.cleaned_data['ports'].values_list('hostname', flat=True))
         linkfrom = form.cleaned_data['hostname']
-#        for item in linkto:
-#            try:
-#                Port.objects.create(server_port=Asset.objects.get(hostname=linkfrom), switch_port=Asset.objects.get(hostname=item))
-#                Port.objects.create(server_port=Asset.objects.get(hostname=item), switch_port=Asset.objects.get(hostname=linkfrom))
-#            except IntegrityError:
-#                pass
+        print(form.cleaned_data)
         return super(AddAsset, self).form_valid(form)
 
 
@@ -82,8 +77,6 @@ class AddPort(CreateView):
         kwargs = super().get_form_kwargs()
         print(kwargs)
         return kwargs
-#{'initial': {}, 'prefix': None, 'data': <QueryDict: {'csrfmiddlewaretoken': ['HVAC0B0MXLSNtA7PqeNOZSbq69XWmf8tKrBWCIvqYEikNQW6fB6ex0D2Ief4ENPi'],
-    # 'server_port': ['1'], 'switch_port': ['6']}>, 'files': <MultiValueDict: {}>, 'instance': None}
 
     def form_valid(self, form):
         reverseddata = dict(switch_port=form.cleaned_data['server_port'], server_port=form.cleaned_data['switch_port'])
