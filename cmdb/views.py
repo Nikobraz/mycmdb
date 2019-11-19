@@ -3,6 +3,7 @@ from django.views.generic.edit import CreateView, UpdateView
 from django.views.generic.list import ListView
 from django.urls import reverse
 from cmdb.models import *
+from django.db import IntegrityError
 # Create your views here.
 
 
@@ -28,9 +29,14 @@ class AddAsset(CreateView):
         return reverse('baseview')
 
     def form_valid(self, form):
-        #reverseddata = dict(switch_port=form.cleaned_data['server_port'], server_port=form.cleaned_data['switch_port'])
-        #Port.objects.create(**reverseddata)
-        print('Add: ', str(form.cleaned_data))
+        linkto = list(form.cleaned_data['ports'].values_list('hostname', flat=True))
+        linkfrom = form.cleaned_data['hostname']
+#        for item in linkto:
+#            try:
+#                Port.objects.create(server_port=Asset.objects.get(hostname=linkfrom), switch_port=Asset.objects.get(hostname=item))
+#                Port.objects.create(server_port=Asset.objects.get(hostname=item), switch_port=Asset.objects.get(hostname=linkfrom))
+#            except IntegrityError:
+#                pass
         return super(AddAsset, self).form_valid(form)
 
 
@@ -52,14 +58,16 @@ class UpdateAsset(UpdateView):
         return context
 
     def form_valid(self, form):
-        #reverseddata = dict(switch_port=form.cleaned_data['server_port'], server_port=form.cleaned_data['switch_port'])
         linkto = list(form.cleaned_data['ports'].values_list('hostname', flat=True))
         linkfrom = form.cleaned_data['hostname']
-        reverseddata = dict()
         for item in linkto:
-            reverseddata=
-        print('Update: ', str(form.cleaned_data['hostname']))
+            try:
+                Port.objects.create(server_port=Asset.objects.get(hostname=linkfrom), switch_port=Asset.objects.get(hostname=item))
+                Port.objects.create(server_port=Asset.objects.get(hostname=item), switch_port=Asset.objects.get(hostname=linkfrom))
+            except IntegrityError:
+                pass
         return super(UpdateAsset, self).form_valid(form)
+
 
 
 class AddPort(CreateView):
