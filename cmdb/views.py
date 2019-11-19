@@ -27,6 +27,12 @@ class AddAsset(CreateView):
     def get_success_url(self):
         return reverse('baseview')
 
+    def form_valid(self, form):
+        #reverseddata = dict(switch_port=form.cleaned_data['server_port'], server_port=form.cleaned_data['switch_port'])
+        #Port.objects.create(**reverseddata)
+        print('Add: ', str(form.cleaned_data))
+        return super(AddAsset, self).form_valid(form)
+
 
 class UpdateAsset(UpdateView):
     model = Asset
@@ -45,6 +51,16 @@ class UpdateAsset(UpdateView):
         context = super().get_context_data(**kwargs)
         return context
 
+    def form_valid(self, form):
+        #reverseddata = dict(switch_port=form.cleaned_data['server_port'], server_port=form.cleaned_data['switch_port'])
+        linkto = list(form.cleaned_data['ports'].values_list('hostname', flat=True))
+        linkfrom = form.cleaned_data['hostname']
+        reverseddata = dict()
+        for item in linkto:
+            reverseddata=
+        print('Update: ', str(form.cleaned_data['hostname']))
+        return super(UpdateAsset, self).form_valid(form)
+
 
 class AddPort(CreateView):
     model = Port
@@ -62,8 +78,13 @@ class AddPort(CreateView):
     # 'server_port': ['1'], 'switch_port': ['6']}>, 'files': <MultiValueDict: {}>, 'instance': None}
 
     def form_valid(self, form):
+        reverseddata = dict(switch_port=form.cleaned_data['server_port'], server_port=form.cleaned_data['switch_port'])
+        Port.objects.create(**reverseddata)
         return super(AddPort, self).form_valid(form)
 
     def get_success_url(self):
         return reverse('baseview')
+
+    def cleaned_data(self):
+        pass
 
