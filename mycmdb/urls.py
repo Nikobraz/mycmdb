@@ -22,5 +22,6 @@ urlpatterns = [
     path('addasset/', AddAsset.as_view(), name='addasset'),
     path('addport/', AddPort.as_view(), name='addport'),
     path('edit/<pk>/', UpdateAsset.as_view(), name='updateasset'),
+    path('remove/<pk>/', RemoveAsset.as_view(), name='removeasset'),
     #    path('admin/', admin.site.urls),
 ]

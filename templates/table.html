@@ -1,8 +1,8 @@
 {% extends "base.html" %}
 {% block title %}Table{% endblock %}
 {% block content %}
-<h1>All Table</h1>
-<table border="1" width="100%">
+<h1 class="title" align="center">All Table</h1>
+<table border="1" width="80%" align="center">
     <tr>
         <td>Hostname</td>
         <td>Max ports</td>
@@ -10,6 +10,7 @@
         <td>port_to</td>
 
         <td>Edit...</td>
+        <td>Remove...</td>
     </tr>
     {% for item in data %}
     <tr class='success'>
@@ -18,10 +19,13 @@
         <td>{{ item.port_count }}</td>
         <td>{{ item.port_to|linebreaksbr }}</td>
 
-        <td><a href="{% url "updateasset" item.id %}">Edit...</a></td>
+        <td><a href="{% url "updateasset" item.id %}">Edit</a></td>
+        <td><a href="{% url "removeasset" item.id %}">Remove</a></td>
     </tr>
     {% endfor %}
 </table>
-<a href="{% url "addasset" %}">Add Asset</a><p>
-<a href="{% url "addport" %}">Add Port</a>
+        <div class="linkblock">
+            <a href="{% url "addasset" %}">Add Asset</a><br>
+            <a href="{% url "addport" %}">Add Port</a>
+        </div>
 {% endblock %}

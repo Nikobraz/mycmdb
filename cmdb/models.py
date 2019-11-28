@@ -7,8 +7,7 @@ from django.dispatch import receiver
 
 @receiver(signals.pre_save)
 def update_ports(sender, instance, **kwargs):
-#    print(instance)
-    print('update model')
+    pass
 
 
 class Asset(models.Model):

@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.views.generic.edit import CreateView, UpdateView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic.list import ListView
 from django.urls import reverse
 from cmdb.models import *
@@ -29,10 +29,14 @@ class AddAsset(CreateView):
         return reverse('baseview')
 
     def form_valid(self, form):
-        linkto = list(form.cleaned_data['ports'].values_list('hostname', flat=True))
-        linkfrom = form.cleaned_data['hostname']
-        print(form.cleaned_data)
         return super(AddAsset, self).form_valid(form)
+
+
+class RemoveAsset(DeleteView):
+    model = Asset
+
+    def get_success_url(self):
+        return reverse('baseview')
 
 
 class UpdateAsset(UpdateView):
@@ -64,7 +68,6 @@ class UpdateAsset(UpdateView):
         return super(UpdateAsset, self).form_valid(form)
 
 
-
 class AddPort(CreateView):
     model = Port
     template_name = 'addport.html'
@@ -75,10 +78,10 @@ class AddPort(CreateView):
 
     def get_form_kwargs(self, *args, **kwargs):
         kwargs = super().get_form_kwargs()
-        print(kwargs)
         return kwargs
 
     def form_valid(self, form):
+        """Create reverse relation"""
         reverseddata = dict(switch_port=form.cleaned_data['server_port'], server_port=form.cleaned_data['switch_port'])
         Port.objects.create(**reverseddata)
         return super(AddPort, self).form_valid(form)
