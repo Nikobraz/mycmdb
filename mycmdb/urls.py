@@ -30,4 +30,5 @@ urlpatterns = [
     path('remove/<pk>/', RemoveAsset.as_view(), name='removeasset'),
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
+    path('accounts/', include('django.contrib.auth.urls')),
 ]
