@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.admin',
     'cmdb.apps.CmdbConfig',
     'crispy_forms',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
@@ -74,6 +75,10 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'mycmdb.wsgi.application'
 
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 10
+}
 
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases

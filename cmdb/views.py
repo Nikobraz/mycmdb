@@ -2,8 +2,10 @@ from django.shortcuts import render
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic.list import ListView
 from django.urls import reverse
-from cmdb.models import *
+from .models import Asset, Port
+from .serializers import AssetSerializer, PortSerializer
 from django.db import IntegrityError
+from rest_framework import viewsets
 # Create your views here.
 
 
@@ -93,3 +95,12 @@ class AddPort(CreateView):
     def cleaned_data(self):
         pass
 
+
+class AssetViewSet(viewsets.ModelViewSet):
+    queryset = Asset.objects.all().order_by('hostname')
+    serializer_class = AssetSerializer
+
+
+class PortViewSet(viewsets.ModelViewSet):
+    queryset = Port.objects.all().order_by('server_port')
+    serializer_class = PortSerializer
