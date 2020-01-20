@@ -83,6 +83,7 @@ class AddPort(CreateView):
     def form_valid(self, form):
         """Create reverse relation"""
         reverseddata = dict(switch_port=form.cleaned_data['server_port'], server_port=form.cleaned_data['switch_port'])
+        print(reverseddata)
         Port.objects.create(**reverseddata)
         return super(AddPort, self).form_valid(form)
 
