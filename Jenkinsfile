@@ -1,6 +1,9 @@
 pipeline {
   agent {
-    docker { image 'nikobraz/mycmdb:latest' }
+    dockerfile {
+      filename './Dockerfile'
+    }
+
   }
   stages {
     stage('Test') {
@@ -9,5 +12,6 @@ pipeline {
         sh 'python3 -m django --version'
       }
     }
+
   }
 }
