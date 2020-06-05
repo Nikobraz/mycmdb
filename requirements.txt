@@ -1,4 +1,4 @@
 wheel
-Django==3.0.2
+Django==3.0.7
 django-crispy-forms
 djangorestframework
