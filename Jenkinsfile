@@ -7,7 +7,7 @@ node('master') {
     }
     def dockerTool = tool name: 'docker', type: 'dockerTool'
     withEnv(["DOCKER=${dockerTool}/bin", "PATH=$PATH:${dockerTool}/bin"]) {
-        stageWhen('git checkout', BUILD == 'true') {
+        stageWhen('git checkout', params.BUILD) {
             checkout([$class                           : 'GitSCM',
                       branches                         : [[name: '*/master']],
                       doGenerateSubmoduleConfigurations: false,
@@ -15,7 +15,7 @@ node('master') {
                       submoduleCfg                     : [],
                       userRemoteConfigs                : [[url: 'https://github.com/Nikobraz/mycmdb.git']]])
         }
-        stageWhen('build', BUILD == 'true') {
+        stageWhen('build', params.BUILD) {
             customImage = docker.build("nikobraz/mycmdb:${env.BUILD_ID}", ".")
             /*
             docker.image("nikobraz/mycmdb:${env.BUILD_ID}").withRun() { c ->
@@ -23,7 +23,7 @@ node('master') {
             }
             */
         }
-        stageWhen('push', BUILD == 'true') {
+        stageWhen('push', params.BUILD) {
             withDockerRegistry(credentialsId: 'be53aead-ae88-43c5-b4d9-14fa3bc9c125', toolName: 'docker') {
                 customImage.push()
                 customImage.push('latest')
