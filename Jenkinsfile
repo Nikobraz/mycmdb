@@ -8,12 +8,7 @@ node('master') {
     def dockerTool = tool name: 'docker', type: 'dockerTool'
     withEnv(["DOCKER=${dockerTool}/bin", "PATH=$PATH:${dockerTool}/bin"]) {
          stageWhen('git checkout', params.BUILD) {	
-            checkout([$class                           : 'GitSCM',	
-                      branches                         : [[name: '*/master']],	
-                      doGenerateSubmoduleConfigurations: false,	
-                      extensions                       : [],	
-                      submoduleCfg                     : [],	
-                      userRemoteConfigs                : [[url: 'https://github.com/Nikobraz/mycmdb.git']]])	
+            checkout scm
         }
         stageWhen('build', params.BUILD) {
             customImage = docker.build("nikobraz/mycmdb:${env.BUILD_ID}", ".")
