@@ -15,8 +15,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from cmdb.views import *
 from rest_framework import routers
+
+from cmdb.views import AssetViewSet, PortViewSet, BaseView, AddAsset, AddPort, UpdateAsset, RemoveAsset
 
 router = routers.DefaultRouter()
 router.register(r'assets', AssetViewSet)
