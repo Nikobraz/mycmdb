@@ -10,9 +10,11 @@ services:
   web:
     build: .
     command: python manage.py runserver 0.0.0.0:8000
+    environment:
+      - DJANGO_SETTINGS_MODULE=mycmdb.settings.sqlite
     volumes:
       - .:/code
     ports:
-      - "8000:8000"
+      - "8000:8000/tcp"
     depends_on:
       - db
